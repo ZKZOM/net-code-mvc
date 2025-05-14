@@ -1,0 +1,75 @@
+@model TodoMvcApp.Models.Todo
+
+@{
+    ViewData["Title"] = "创建待办事项";
+}
+
+<h1>创建新的待办事项</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="Create">
+                    <!-- 表单验证摘要 -->
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
+                    <!-- 标题字段 -->
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label">标题</label>
+                        <input asp-for="Title" class="form-control" placeholder="输入待办事项标题" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                        <div class="form-text">请输入待办事项的标题（必填）</div>
+                    </div>
+                    
+                    <!-- 描述字段 -->
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label">描述</label>
+                        <textarea asp-for="Description" class="form-control" rows="3" placeholder="输入待办事项详细描述（可选）"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    
+                    <!-- 截止日期字段 -->
+                    <div class="mb-3">
+                        <label asp-for="DueDate" class="form-label">截止日期</label>
+                        <input asp-for="DueDate" class="form-control" type="date" />
+                        <span asp-validation-for="DueDate" class="text-danger"></span>
+                        <div class="form-text">选择待办事项的截止日期（可选）</div>
+                    </div>
+                    
+                    <!-- 提交按钮 -->
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i> 保存
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> 返回列表
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">提示</h5>
+            </div>
+            <div class="card-body">
+                <p>创建一个新的待办事项，您需要：</p>
+                <ul>
+                    <li>输入待办事项的标题（必填）</li>
+                    <li>可以添加详细描述（可选）</li>
+                    <li>可以设置截止日期（可选）</li>
+                </ul>
+                <p>点击"保存"按钮创建待办事项，或点击"返回列表"取消创建。</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- 客户端验证脚本 -->
+    <partial name="_ValidationScriptsPartial" />
+} 

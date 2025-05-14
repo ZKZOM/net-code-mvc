@@ -1,0 +1,141 @@
+@model IEnumerable<TodoMvcApp.Models.Todo>
+
+@{
+    ViewData["Title"] = "待办事项列表";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>待办事项列表</h1>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> 新建待办事项
+    </a>
+</div>
+
+<!-- 待办事项过滤器 -->
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" id="searchInput" class="form-control" placeholder="搜索待办事项...">
+                    <button class="btn btn-outline-secondary" type="button" id="searchButton">
+                        <i class="bi bi-search"></i> 搜索
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-primary filter-btn" data-filter="all">全部</button>
+                    <button type="button" class="btn btn-outline-success filter-btn" data-filter="completed">已完成</button>
+                    <button type="button" class="btn btn-outline-warning filter-btn" data-filter="active">进行中</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 待办事项列表 -->
+<div class="todo-list">
+    @if (Model.Any())
+    {
+        @foreach (var item in Model)
+        {
+            <div class="card mb-3 todo-item @(item.IsComplete ? "completed" : "active")">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <!-- 完成状态切换按钮 -->
+                            <form asp-action="ToggleComplete" asp-route-id="@item.Id" method="post" class="me-3">
+                                <button type="submit" class="btn btn-sm @(item.IsComplete ? "btn-success" : "btn-outline-success")">
+                                    <i class="bi @(item.IsComplete ? "bi-check-circle-fill" : "bi-circle")"></i>
+                                </button>
+                            </form>
+                            
+                            <!-- 待办事项标题和描述 -->
+                            <div>
+                                <h5 class="mb-1 @(item.IsComplete ? "text-decoration-line-through" : "")">@item.Title</h5>
+                                @if (!string.IsNullOrEmpty(item.Description))
+                                {
+                                    <p class="mb-1 text-muted">@item.Description</p>
+                                }
+                                <small class="text-muted">
+                                    创建于: @item.CreatedDate.ToString("yyyy-MM-dd HH:mm")
+                                    @if (item.DueDate.HasValue)
+                                    {
+                                        <span class="ms-2">截止日期: @item.DueDate.Value.ToString("yyyy-MM-dd")</span>
+                                    }
+                                </small>
+                            </div>
+                        </div>
+                        
+                        <!-- 操作按钮 -->
+                        <div class="btn-group">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil"></i> 编辑
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i> 删除
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="alert alert-info">
+            <p class="mb-0">暂无待办事项。点击"新建待办事项"按钮创建一个新的待办事项。</p>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        // 待办事项过滤功能
+        $(document).ready(function() {
+            // 过滤按钮点击事件
+            $('.filter-btn').click(function() {
+                const filter = $(this).data('filter');
+                
+                // 更新按钮样式
+                $('.filter-btn').removeClass('active');
+                $(this).addClass('active');
+                
+                // 过滤待办事项
+                if (filter === 'all') {
+                    $('.todo-item').show();
+                } else {
+                    $('.todo-item').hide();
+                    $('.todo-item.' + filter).show();
+                }
+            });
+            
+            // 搜索功能
+            $('#searchButton').click(function() {
+                const searchText = $('#searchInput').val().toLowerCase();
+                
+                $('.todo-item').each(function() {
+                    const title = $(this).find('h5').text().toLowerCase();
+                    const description = $(this).find('p').text().toLowerCase();
+                    
+                    if (title.includes(searchText) || description.includes(searchText)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+            
+            // 回车键触发搜索
+            $('#searchInput').keypress(function(e) {
+                if (e.which === 13) {
+                    $('#searchButton').click();
+                }
+            });
+            
+            // 默认选中"全部"过滤器
+            $('.filter-btn[data-filter="all"]').addClass('active');
+        });
+    </script>
+} 

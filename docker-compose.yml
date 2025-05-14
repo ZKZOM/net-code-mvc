@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: TodoMvcApp/Dockerfile
+    ports:
+      - "8080:80"
+      - "8081:443"
+    depends_on:
+      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - DOTNET_WATCH_RESTART_ON_RUDE_EDIT=true
+      - ASPNETCORE_HOSTINGSTARTUPASSEMBLIES=Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
+    networks:
+      - todo-network
+    restart: always
+    volumes:
+      - ./TodoMvcApp:/app/src
+      - ./TodoMvcApp/Views:/app/Views
+      - ./TodoMvcApp/wwwroot:/app/wwwroot
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Your_Strong_Password123!
+      - MSSQL_PID=Express
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - todo-network
+    restart: always
+
+networks:
+  todo-network:
+    driver: bridge
+
+volumes:
+  sqlserver-data: 

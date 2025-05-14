@@ -1,0 +1,41 @@
+@model TodoMvcApp.Controllers.ErrorViewModel
+@{
+    ViewData["Title"] = "错误";
+}
+
+<div class="container">
+    <h1 class="text-danger">错误</h1>
+    <h2 class="text-danger">处理您的请求时发生错误。</h2>
+
+    @if (Model.ShowRequestId)
+    {
+        <p>
+            <strong>请求 ID:</strong> <code>@Model.RequestId</code>
+        </p>
+    }
+
+    <div class="alert alert-warning mt-4">
+        <h4 class="alert-heading">发生了什么？</h4>
+        <p>
+            服务器在处理您的请求时遇到了问题。这可能是由于以下原因：
+        </p>
+        <ul>
+            <li>临时服务器错误</li>
+            <li>无效的请求参数</li>
+            <li>服务器资源不足</li>
+            <li>权限问题</li>
+        </ul>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <h4>您可以尝试：</h4>
+            <ul>
+                <li>刷新页面</li>
+                <li>返回上一页并重试</li>
+                <li>返回<a asp-controller="Home" asp-action="Index">首页</a></li>
+                <li>如果问题持续存在，请联系管理员</li>
+            </ul>
+        </div>
+    </div>
+</div> 

@@ -1,0 +1,59 @@
+@{
+    ViewData["Title"] = "首页";
+}
+
+<div class="text-center">
+    <h1 class="display-4">欢迎使用待办事项管理系统</h1>
+    <p>这是一个使用 ASP.NET Core MVC 和 Entity Framework Core 构建的待办事项管理应用程序。</p>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0">MVC 架构</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">MVC (Model-View-Controller) 是一种软件架构模式，它将应用程序分为三个主要组件：</p>
+                <ul>
+                    <li><strong>模型 (Model)</strong>：数据和业务逻辑</li>
+                    <li><strong>视图 (View)</strong>：用户界面</li>
+                    <li><strong>控制器 (Controller)</strong>：处理用户输入和更新模型</li>
+                </ul>
+                <a href="https://docs.microsoft.com/zh-cn/aspnet/core/mvc/overview" class="btn btn-primary" target="_blank">了解更多</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="card-title mb-0">Entity Framework Core</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Entity Framework Core 是一个轻量级、可扩展的对象关系映射 (ORM) 框架，它允许开发人员：</p>
+                <ul>
+                    <li>使用 .NET 对象操作数据库</li>
+                    <li>消除大部分数据访问代码</li>
+                    <li>使用 LINQ 查询数据库</li>
+                </ul>
+                <a href="https://docs.microsoft.com/zh-cn/ef/core/" class="btn btn-success" target="_blank">了解更多</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="card-title mb-0">开始使用</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">点击下面的按钮开始管理您的待办事项：</p>
+                <a asp-controller="Todo" asp-action="Index" class="btn btn-info">查看待办事项</a>
+                <hr />
+                <p class="card-text">或者创建一个新的待办事项：</p>
+                <a asp-controller="Todo" asp-action="Create" class="btn btn-outline-info">创建待办事项</a>
+            </div>
+        </div>
+    </div>
+</div> 

@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      target: build
+    entrypoint: dotnet watch run --project TodoMvcApp.csproj --urls=http://+:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_USE_POLLING_FILE_WATCHER=true
+      - DOTNET_WATCH_RESTART_ON_RUDE_EDIT=true
+    volumes:
+      - ./TodoMvcApp:/src/TodoMvcApp
+    # 开发环境中禁用自动重启，由dotnet watch处理
+    restart: "no" 

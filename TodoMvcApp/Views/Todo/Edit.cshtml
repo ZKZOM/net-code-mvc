@@ -1,0 +1,91 @@
+@model TodoMvcApp.Models.Todo
+
+@{
+    ViewData["Title"] = "编辑待办事项";
+}
+
+<h1>编辑待办事项</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <!-- 隐藏字段，用于传递ID -->
+                    <input type="hidden" asp-for="Id" />
+                    
+                    <!-- 表单验证摘要 -->
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
+                    <!-- 标题字段 -->
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label">标题</label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    
+                    <!-- 描述字段 -->
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label">描述</label>
+                        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    
+                    <!-- 完成状态字段 -->
+                    <div class="mb-3 form-check">
+                        <input asp-for="IsComplete" class="form-check-input" />
+                        <label asp-for="IsComplete" class="form-check-label">已完成</label>
+                    </div>
+                    
+                    <!-- 截止日期字段 -->
+                    <div class="mb-3">
+                        <label asp-for="DueDate" class="form-label">截止日期</label>
+                        <input asp-for="DueDate" class="form-control" type="date" />
+                        <span asp-validation-for="DueDate" class="text-danger"></span>
+                    </div>
+                    
+                    <!-- 提交按钮 -->
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i> 保存更改
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> 返回列表
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">编辑提示</h5>
+            </div>
+            <div class="card-body">
+                <p>您可以修改待办事项的以下内容：</p>
+                <ul>
+                    <li>标题</li>
+                    <li>描述</li>
+                    <li>完成状态</li>
+                    <li>截止日期</li>
+                </ul>
+                <p>修改完成后点击"保存更改"按钮，或点击"返回列表"取消编辑。</p>
+            </div>
+        </div>
+        
+        <!-- 显示创建日期（只读） -->
+        <div class="card mt-3">
+            <div class="card-body">
+                <p class="mb-1"><strong>创建日期：</strong></p>
+                <p class="mb-0">@Model.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- 客户端验证脚本 -->
+    <partial name="_ValidationScriptsPartial" />
+} 
